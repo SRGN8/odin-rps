@@ -2,4 +2,4 @@
 
 This is a Console-Based Rock Paper Scissors Game made using Javascript for an Odin Project.
 
-Live Preview Link: Coming Soon
+Live Preview Link: https://srgn8.github.io/odin-rps/
