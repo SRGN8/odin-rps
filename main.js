@@ -7,6 +7,9 @@ let paper = "Paper";
 let scissors = "Scissors";
 let playerWins = 0;
 let compWins = 0;
+let pSets = 0;
+let cSets = 0;
+let stateText = "Which option will you choose???";
 
 function randomNumber(min, max) {
   let ceiling = Math.ceil(min);
@@ -33,88 +36,108 @@ function getComputerChoice() {
   return choice;
 }
 
-function getPlayerChoice() {
-  let choice = prompt("Rock, Paper, or Scissors?");
-  let checkCase = choice.toLowerCase();
+function playRound(pChoice) {
+  let compChoice = getComputerChoice();
 
-  if (checkCase == "rock" || checkCase == "paper" || checkCase == "scissors") {
-    return choice;
-  } else {
-    alert("Invalid Choice, choose: Rock, Paper Or Scissors");
-    console.log(
-      "Invalid Choice, Please try again. choose: Rock, Paper or Scissors"
-    );
-    return 1;
-  }
-}
+  const state = document.getElementById("gstext");
+  const score = document.getElementById("sctext");
 
-function playRound() {
-  let playerChoice = getPlayerChoice();
-  let computerChoice = getComputerChoice();
-  let playerCheck = playerChoice.toLowerCase();
-  let compCheck = computerChoice.toLowerCase();
-
-  alert(
-    `You picked ${playerChoice}, and the Computer Chose ${computerChoice}...`
-  );
-  console.log(
-    `You picked ${playerChoice}, and the Computer Chose ${computerChoice}...`
-  );
-
-  if (playerCheck == compCheck) {
-    alert("DRAW GAME.");
-    console.log("DRAW GAME.");
-    return console.log("NEXT ROUND!");
+  if (pChoice == compChoice) {
+    state.textContent = `The Player and CPU Both chose ${pChoice}. DRAW GAME.`;
   }
 
   if (
-    (playerCheck == "rock" && compCheck == "scissors") ||
-    (playerCheck == "scissors" && compCheck == "paper") ||
-    (playerCheck == "paper" && compCheck == "rock")
+    (pChoice == "Rock" && compChoice == "Scissors") ||
+    (pChoice == "Scissors" && compChoice == "Paper") ||
+    (pChoice == "Paper" && compChoice == "Rock")
   ) {
-    alert(`YOU WIN! ${playerChoice} beats ${computerChoice}.`);
-    console.log(`YOU WIN! ${playerChoice} beats ${computerChoice}.`);
+    state.textContent = `${pChoice} beats ${compChoice}. YOU WIN! `;
     playerWins += 1;
+    score.textContent = `Player Round Wins: ${playerWins}  Set Wins: ${pSets} | CPU Wins: ${compWins}  Set Wins: ${cSets}`;
   } else {
-    alert(`YOU LOSE. ${computerChoice} beats ${playerChoice}.`);
-    console.log(`YOU LOSE. ${computerChoice} beats ${playerChoice}.`);
+    state.textContent = `YOU LOSE. ${compChoice} beats ${pChoice}.`;
     compWins += 1;
+    score.textContent = `Player Round Wins: ${playerWins}  Set Wins: ${pSets} | CPU Wins: ${compWins}  Set Wins: ${cSets}`;
   }
 
-  return console.log("NEXT ROUND!");
+  return 0;
 }
 
-function game() {
-  alert(
-    `Welcome to Rock, Paper, Scissors: JS Console Edition! Play vs the Computer in 5 Rounds and see who comes out on top!`
+function gameGen() {
+  const container = document.querySelector(".container");
+  const btn_Names = ["rockBtn", "paperBtn", "scissorsBtn"];
+
+  // Generate Score Keeper and Track Game State
+  const score = document.createElement("div");
+  const scoreText = document.createTextNode(
+    `Player Round Wins: ${playerWins}  Set Wins: ${pSets} | CPU Wins: ${compWins}  Set Wins: ${cSets}`
   );
+  const gameState = document.createElement("p");
+  let sText = document.createTextNode(stateText);
 
-  for (i = 0; i < 5; i++) {
-    alert(`ROUND ${i + 1}`);
-    playRound();
+  score.id = "sctext";
+  gameState.id = "gstext";
+  score.appendChild(scoreText);
+  gameState.appendChild(sText);
+  container.appendChild(score);
+  container.appendChild(gameState);
+
+  // Generate buttons to play with
+  for (let i = 0; i <= 2; i++) {
+    const gameBtn = document.createElement("button");
+    const btnImg = document.createElement("img");
+    const imgSrc = `assets/${btn_Names[i]}.png`;
+    btnImg.src = imgSrc;
+    btnImg.classList.add(btn_Names[i]);
+    gameBtn.id = `${btn_Names[i]}`;
+    gameBtn.classList.add("gameBtn");
+    gameBtn.appendChild(btnImg);
+    container.appendChild(gameBtn);
   }
 
-  if (playerWins == compWins) {
-    alert(
-      `Its a Draw! you tied with the computer ${playerWins} - ${compWins}! Go for the Tiebreaker set, Someone's gotta win LOL!`
-    );
-    console.log(
-      `Its a Draw! you tied with the computer ${playerWins} - ${compWins}! Go for the Tiebreaker set, Someone's gotta win LOL!`
-    );
+  const btnCheck = document.querySelectorAll("button");
+
+  btnCheck.forEach(function (j) {
+    j.addEventListener("click", () => {
+      // console.log(j.id);
+      let c = j.id;
+
+      if (c == "rockBtn") {
+        c = "Rock";
+      }
+
+      if (c == "paperBtn") {
+        c = "Paper";
+      }
+
+      if (c == "scissorsBtn") {
+        c = "Scissors";
+      }
+      game(c);
+    });
+  });
+}
+
+function game(choice) {
+  playRound(choice);
+
+  const state = document.getElementById("gstext");
+  const score = document.getElementById("sctext");
+
+  if (playerWins >= 5 && playerWins > compWins) {
+    pSets += 1;
+    score.textContent = `Player Round Wins: ${playerWins}  Set Wins: ${pSets} | CPU Wins: ${compWins}  Set Wins: ${cSets}`;
+    state.textContent = `Player wins the set ${playerWins} - ${compWins}! Congratulations! You can play another set if you like!`;
+    playerWins = 0;
+    compWins = 0;
   }
 
-  if (playerWins > compWins) {
-    alert(`You won the set ${playerWins} - ${compWins}! CONGRATULATIONS!`);
-    console.log(
-      `You won the set ${playerWins} - ${compWins}! CONGRATULATIONS!`
-    );
-  } else {
-    alert(
-      `The Computer won the set ${compWins} - ${playerWins}! Better luck next time!`
-    );
-    console.log(
-      `The Computer won the set ${compWins} - ${playerWins}! Better luck next time!`
-    );
+  if (compWins >= 5 && compWins > playerWins) {
+    cSets += 1;
+    score.textContent = `Player Round Wins: ${playerWins}  Set Wins: ${pSets} | CPU Wins: ${compWins}  Set Wins: ${cSets}`;
+    state.textContent = `The Computer wins the set ${compWins} - ${playerWins}! Better luck next time! You can play another set if you like!`;
+    playerWins = 0;
+    compWins = 0;
   }
 
   return 0;

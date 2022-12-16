@@ -8,10 +8,20 @@ body {
 
 .rps {
   display: flex;
-  width: 38%;
-  height: 38%;
+  width: 26%;
+  height: 26%;
   margin-right: 15px;
   align-items: center;
+}
+
+.sctext {
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.gstext {
+  font-size: 18px;
+  font-weight: bolder;
 }
 
 .btn {
@@ -20,6 +30,13 @@ body {
   margin: 10px;
   font-size: 20px;
   font-weight: bolder;
+}
+
+.rockBtn,
+.paperBtn,
+.scissorsBtn {
+  width: 10em;
+  height: 11em;
 }
 
 .highlight {

@@ -8,14 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body onload="gameGen()">
+    <img class="rps" src="assets/Rock-paper-scissors.png" alt="" />
     <h1>RPS - HOW TO PLAY</h1>
     <h2>
-      Press F12 to bring up Dev Tools, then navigate to the console, type in:
-      <strong class="highlight">game()</strong> and press enter to start. Or...
+      Play against the Computer by Picking Either <strong>Rock</strong>,
+      <strong>Paper</strong> or <strong>Scissors</strong>. First To win 5 rounds
+      wins the set!
     </h2>
-    <button onclick="game()" class="btn">PLAY</button>
-    <img class="rps" src="assets/Rock-paper-scissors.png" alt="" />
-    <script src="main.js"></script>
+    <!-- <button onclick="game()" class="btn">PLAY</button> -->
+    <!-- <button onclick="genBtn()">Create more buttons</button> -->
+    <div class="container"></div>
+
+    <script src="main.js" async defer></script>
   </body>
 </html>
